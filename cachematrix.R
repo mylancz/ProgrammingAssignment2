@@ -7,8 +7,8 @@
 makeCacheMatrix <- function(x = matrix()) {
   inverseOfMatrix <- NULL
   set <- function(y) {
-    x <<- y
-    inverseOfMatrix <<- NULL
+    x <<- y                 # Set matrix in parent environment
+    inverseOfMatrix <<- NULL    # Reset inverse
   }
   get <- function() x
   setinversion <- function(solve) inverseOfMatrix <<- solve
@@ -24,12 +24,12 @@ makeCacheMatrix <- function(x = matrix()) {
 
 cacheSolve <- function(x, ...) {
   inverse <- x$getinversion()
-  if(!is.null(inverse)) {
+  if(!is.null(inverse)) {             # Check if inverse matrix exists
     message("getting cached data")
-    return(inverse)
+    return(inverse)         # Return cached inverse
   }
   data <- x$get()
-  inverse <- solve(data, ...)
+  inverse <- solve(data, ...)   # If no cached matrix, compute (by solve function)
   x$setinversion(inverse)
   inverse
 }
